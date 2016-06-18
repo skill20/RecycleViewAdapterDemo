@@ -1,0 +1,2 @@
+# RecycleViewAdapterDemo
+common adapter

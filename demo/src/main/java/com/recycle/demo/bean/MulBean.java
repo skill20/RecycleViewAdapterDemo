@@ -9,4 +9,5 @@ package com.recycle.demo.bean;
 public class MulBean {
     public int type;
     public String str;
+    public String strType;
 }

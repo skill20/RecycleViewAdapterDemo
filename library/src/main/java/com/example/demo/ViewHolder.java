@@ -29,7 +29,7 @@ import android.widget.TextView;
 public class ViewHolder extends RecyclerView.ViewHolder {
 
     private Context context;
-    private View rootView;
+    public View rootView;
     private final SparseArray<View> sparseArray;
 
     public ViewHolder(Context context, View itemView) {

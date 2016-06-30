@@ -17,6 +17,7 @@
         </activity>
         <activity android:name=".DefRecycleViewActivity" />
         <activity android:name=".MulRecycleViewActivity" />
+        <activity android:name=".StickRecycleViewActivity" />
     </application>
 
 </manifest>

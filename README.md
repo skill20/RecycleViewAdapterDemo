@@ -3,6 +3,7 @@ common adapter
 
 ## RecycleView.Adapter的封装
 ##### Android RecycleView.Apdater 封装，包括开始请求网络数据的加载、加载失败、加载数据为空，支持多种Item类型。
+##### 添加对RecyclerView 顶部悬浮的支持
 ### 使用
 - 默认开始加载转圈，通过下面方法可以自定义
 ```java

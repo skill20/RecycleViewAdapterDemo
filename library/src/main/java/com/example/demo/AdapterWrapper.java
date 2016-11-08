@@ -228,6 +228,10 @@ public abstract class AdapterWrapper<T> extends RecyclerView.Adapter<ViewHolder>
         return count;
     }
 
+    public List<T> getmDataList() {
+        return mDataList;
+    }
+
     private boolean isLoadMore() {
         return loadMore;
     }

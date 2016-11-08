@@ -10,7 +10,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
-import com.example.demo.DecorAdapter;
+import com.example.demo.SuperAdapter;
 import com.example.demo.OnRecycleScrollListener;
 
 import java.util.ArrayList;
@@ -40,7 +40,7 @@ public class LoadMoreRecycleViewActivity extends AppCompatActivity {
         recycleView.setAdapter(moreAdapter);
 
         moreAdapter.setDataList(getData(20), true);
-        moreAdapter.setOnLoadMoreFailListener(new DecorAdapter.OnLoadMoreFailClickListener() {
+        moreAdapter.setOnLoadMoreFailListener(new SuperAdapter.OnLoadMoreFailClickListener() {
             @Override
             public void onLoadMoreFailClick() {
                 loadMore();

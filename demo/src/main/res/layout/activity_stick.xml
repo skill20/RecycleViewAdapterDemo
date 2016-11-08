@@ -11,7 +11,7 @@
 
     <include
         android:id="@+id/include"
-        layout="@layout/recyele_list_def"
+        layout="@layout/recycle_list_def"
         android:visibility="gone"
         tools:visibility="visible" />
 

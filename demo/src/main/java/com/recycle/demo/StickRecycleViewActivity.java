@@ -34,6 +34,7 @@ public class StickRecycleViewActivity extends AppCompatActivity {
     private List<MulBean> dataList;
     private TextView textView;
 
+    private String mDesc;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,17 +54,17 @@ public class StickRecycleViewActivity extends AppCompatActivity {
                     holder.setText(R.id.text_mul, item.str);
                 }
 
-                int position = holder.getAdapterPosition();
-                if (position == 0) {
-                    holder.itemView.setTag(FIRST_STICKY_VIEW);
-                } else {
-                    if (position % 5 == 0) {
-                        holder.itemView.setTag(HAS_STICKY_VIEW);
-                    } else {
-                        holder.itemView.setTag(NONE_STICKY_VIEW);
-                    }
-                }
-                holder.itemView.setContentDescription(item.strType);
+//                int position = holder.getAdapterPosition();
+//                if (position == 0) {
+//                    holder.itemView.setTag(FIRST_STICKY_VIEW);
+//                } else {
+//                    if (position % 5 == 0) {
+//                        holder.itemView.setTag(HAS_STICKY_VIEW);
+//                    } else {
+//                        holder.itemView.setTag(NONE_STICKY_VIEW);
+//                    }
+//                }
+//                holder.itemView.setContentDescription(item.strType);
 
 
             }
@@ -83,41 +84,91 @@ public class StickRecycleViewActivity extends AppCompatActivity {
         }, 3000);
 
 
+//        recycleView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+//            @Override
+//            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+//                super.onScrolled(recyclerView, dx, dy);
+//
+//                // Get the sticky information from the topmost view of the screen.
+//                View stickyInfoView = recyclerView.findChildViewUnder(
+//                        include.getMeasuredWidth() / 2, 5);
+//
+//                if (stickyInfoView != null && stickyInfoView.getContentDescription() != null) {
+//                    textView.setText(String.valueOf(stickyInfoView.getContentDescription()));
+//                }
+//
+//                // Get the sticky view's translationY by the first view below the sticky's height.
+//                View transInfoView = recyclerView.findChildViewUnder(
+//                        include.getMeasuredWidth() / 2, include.getMeasuredHeight() + 1);
+//
+//                if (transInfoView != null && transInfoView.getTag() != null) {
+//                    int transViewStatus = (int) transInfoView.getTag();
+//                    int dealtY = transInfoView.getTop() - include.getMeasuredHeight();
+//                    if (transViewStatus == HAS_STICKY_VIEW) {
+//                        // If the first view below the sticky's height scroll off the screen,
+//                        // then recovery the sticky view's translationY.
+//                        if (transInfoView.getTop() > 0) {
+//                            include.setTranslationY(dealtY);
+//                        } else {
+//                            include.setTranslationY(0);
+//                        }
+//                    } else if (transViewStatus == NONE_STICKY_VIEW) {
+//                        include.setTranslationY(0);
+//                    }
+//                }
+//            }
+//        });
         recycleView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
 
-                // Get the sticky information from the topmost view of the screen.
-                View stickyInfoView = recyclerView.findChildViewUnder(
-                        include.getMeasuredWidth() / 2, 5);
+                RecyclerView.LayoutManager manager = recyclerView.getLayoutManager();
+                if (manager instanceof LinearLayoutManager) {
 
-                if (stickyInfoView != null && stickyInfoView.getContentDescription() != null) {
-                    textView.setText(String.valueOf(stickyInfoView.getContentDescription()));
+                    int position =
+                            ((RecyclerView.LayoutParams) manager.getChildAt(0).getLayoutParams())
+                                    .getViewAdapterPosition();
+
+                    int typePosition = findStickTypePosition(recyclerView, position);
+                    if (typePosition < 0) {
+                        return;
+                    }
+
+                    int itemViewType = recyclerView.getAdapter().getItemViewType(position + 1);
+
+                    if (itemViewType == 2) {
+                        View view = manager.findViewByPosition(position);
+                        int top = view.getTop();
+                        include.setY(top);
+
+                    } else {
+                        include.setY(0);
+                    }
+
+                    textView.setText(wrapper.getmDataList().get(typePosition).str);
+
                 }
 
-                // Get the sticky view's translationY by the first view below the sticky's height.
-                View transInfoView = recyclerView.findChildViewUnder(
-                        include.getMeasuredWidth() / 2, include.getMeasuredHeight() + 1);
+            }
 
-                if (transInfoView != null && transInfoView.getTag() != null) {
-                    int transViewStatus = (int) transInfoView.getTag();
-                    int dealtY = transInfoView.getTop() - include.getMeasuredHeight();
-                    if (transViewStatus == HAS_STICKY_VIEW) {
-                        // If the first view below the sticky's height scroll off the screen,
-                        // then recovery the sticky view's translationY.
-                        if (transInfoView.getTop() > 0) {
-                            include.setTranslationY(dealtY);
-                        } else {
-                            include.setTranslationY(0);
-                        }
-                    } else if (transViewStatus == NONE_STICKY_VIEW) {
-                        include.setTranslationY(0);
+            private int findStickTypePosition(RecyclerView parent, int fromPosition) {
+                RecyclerView.Adapter adapter = parent.getAdapter();
+                if (fromPosition > adapter.getItemCount() || fromPosition < 0) {
+                    return -1;
+                }
+
+                for (int position = fromPosition; position >= 0; position--) {
+                    int viewType = adapter.getItemViewType(position);
+                    if (viewType == 2) {
+                        return position;
                     }
                 }
+
+                return -1;
             }
         });
-
     }
 
     private List<MulBean> getData() {
@@ -147,7 +198,7 @@ public class StickRecycleViewActivity extends AppCompatActivity {
         @Override
         public int getLayoutId(int itemType) {
             if (itemType == 2) {
-                return R.layout.recyele_list_def;
+                return R.layout.recycle_list_def;
             } else if (itemType == 3) {
                 return R.layout.recyele_list_mul;
             }

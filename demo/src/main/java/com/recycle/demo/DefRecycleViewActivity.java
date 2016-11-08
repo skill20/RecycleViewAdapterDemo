@@ -35,7 +35,7 @@ public class DefRecycleViewActivity extends AppCompatActivity {
         recycleView.setLayoutManager(new LinearLayoutManager(this));
         recycleView.addOnScrollListener(mOnScrollListener);
 
-        adapterWrapper = new AdapterWrapper<String>(this, R.layout.recyele_list_def) {
+        adapterWrapper = new AdapterWrapper<String>(this, R.layout.recycle_list_def) {
 
             @Override
             protected void convert(ViewHolder holder, String item) {

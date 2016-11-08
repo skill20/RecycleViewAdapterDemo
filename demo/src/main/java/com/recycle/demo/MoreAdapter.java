@@ -2,7 +2,7 @@ package com.recycle.demo;
 
 import android.content.Context;
 
-import com.example.demo.DecorAdapter;
+import com.example.demo.SuperAdapter;
 import com.example.demo.ViewHolder;
 
 /**
@@ -11,7 +11,7 @@ import com.example.demo.ViewHolder;
  * Copyright(c) 2016 TCL-MIG
  * Description
  */
-public class MoreAdapter extends DecorAdapter<String> {
+public class MoreAdapter extends SuperAdapter<String> {
     public MoreAdapter(Context context) {
         super(context, R.layout.list_text);
     }

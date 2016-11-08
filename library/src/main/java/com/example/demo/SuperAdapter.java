@@ -16,14 +16,13 @@ import java.util.List;
  * #since 6.0.0
  * #copyright TCL-MIG
  */
-public abstract class DecorAdapter<T> extends RecyclerView.Adapter<ViewHolder> {
+public abstract class SuperAdapter<T> extends RecyclerView.Adapter<ViewHolder> {
 
+    private static final int LOAD_MORE_VIEW = 99;
+    private int layoutResId;
     private Context context;
     private List<T> mDataList;
     private LayoutInflater inflater;
-    private int layoutResId;
-
-    private static final int LOAD_MORE_VIEW = 0x00000444;
 
     private boolean canLoadMore = false;
     private boolean showLoadMoreProgress = true;
@@ -33,14 +32,14 @@ public abstract class DecorAdapter<T> extends RecyclerView.Adapter<ViewHolder> {
     private OnItemClickListener<T> onItemClickListener;
     private OnLoadMoreFailClickListener onLoadMoreFailListener;
 
-    public DecorAdapter(Context context, int layoutResId) {
+    public SuperAdapter(Context context, int layoutResId) {
         this.context = context;
         mDataList = new ArrayList<>();
         this.layoutResId = layoutResId;
         inflater = LayoutInflater.from(context);
     }
 
-    public DecorAdapter(Context context, MultiItemTypeSupport<T> itemTypeSupport) {
+    public SuperAdapter(Context context, MultiItemTypeSupport<T> itemTypeSupport) {
         this(context, 0);
         this.itemTypeSupport = itemTypeSupport;
     }
@@ -133,8 +132,6 @@ public abstract class DecorAdapter<T> extends RecyclerView.Adapter<ViewHolder> {
         }
     }
 
-    protected abstract void convert(ViewHolder holder, T item);
-
     @Override
     public int getItemViewType(int position) {
 
@@ -152,21 +149,26 @@ public abstract class DecorAdapter<T> extends RecyclerView.Adapter<ViewHolder> {
         return canLoadMore ? count + 1 : count;
     }
 
+    protected abstract void convert(ViewHolder holder, T item);
     public List<T> getItemData() {
         return mDataList;
     }
 
-    @Override
-    public void onViewAttachedToWindow(ViewHolder holder) {
-        super.onViewAttachedToWindow(holder);
-        setFullSpan(holder);
+
+    public interface OnLoadMoreFailClickListener {
+        void onLoadMoreFailClick();
     }
 
-    private void setFullSpan(RecyclerView.ViewHolder holder) {
-        if (holder.itemView.getLayoutParams() instanceof StaggeredGridLayoutManager.LayoutParams && mDataList.isEmpty()) {
-            StaggeredGridLayoutManager.LayoutParams params = (StaggeredGridLayoutManager.LayoutParams) holder.itemView.getLayoutParams();
-            params.setFullSpan(true);
-        }
+    public interface OnItemClickListener<T> {
+        void onItemClick(View view, int position, T t);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener<T> itemClickListener) {
+        this.onItemClickListener = itemClickListener;
+    }
+
+    public void setOnLoadMoreFailListener(OnLoadMoreFailClickListener onLoadMoreFailListener) {
+        this.onLoadMoreFailListener = onLoadMoreFailListener;
     }
 
     public void showLoadMoreProgress(boolean show) {
@@ -209,20 +211,17 @@ public abstract class DecorAdapter<T> extends RecyclerView.Adapter<ViewHolder> {
         notifyDataSetChanged();
     }
 
-    public interface OnLoadMoreFailClickListener {
-        void onLoadMoreFailClick();
+    @Override
+    public void onViewAttachedToWindow(ViewHolder holder) {
+        super.onViewAttachedToWindow(holder);
+        setFullSpan(holder);
     }
 
-    public interface OnItemClickListener<T> {
-        void onItemClick(View view, int position, T t);
-    }
-
-    public void setOnItemClickListener(OnItemClickListener<T> itemClickListener) {
-        this.onItemClickListener = itemClickListener;
-    }
-
-    public void setOnLoadMoreFailListener(OnLoadMoreFailClickListener onLoadMoreFailListener) {
-        this.onLoadMoreFailListener = onLoadMoreFailListener;
+    private void setFullSpan(RecyclerView.ViewHolder holder) {
+        if (holder.itemView.getLayoutParams() instanceof StaggeredGridLayoutManager.LayoutParams && mDataList.isEmpty()) {
+            StaggeredGridLayoutManager.LayoutParams params = (StaggeredGridLayoutManager.LayoutParams) holder.itemView.getLayoutParams();
+            params.setFullSpan(true);
+        }
     }
 
 }

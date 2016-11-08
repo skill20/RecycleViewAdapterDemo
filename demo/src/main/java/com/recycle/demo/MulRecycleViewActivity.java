@@ -87,7 +87,7 @@ public class MulRecycleViewActivity extends AppCompatActivity {
         @Override
         public int getLayoutId(int itemType) {
             if (itemType == 2) {
-                return R.layout.recyele_list_def;
+                return R.layout.recycle_list_def;
             } else if (itemType == 3) {
                 return R.layout.recyele_list_mul;
             }

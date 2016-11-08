@@ -35,4 +35,13 @@
         android:background="@android:color/holo_blue_bright"
         android:gravity="center"
         android:text="Stick RecycleView" />
+
+    <Button
+        android:id="@+id/load_text"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:background="@android:color/holo_blue_bright"
+        android:gravity="center"
+        android:text="LoadMore RecycleView" />
 </LinearLayout>

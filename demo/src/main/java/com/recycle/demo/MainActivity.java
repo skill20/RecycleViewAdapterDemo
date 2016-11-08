@@ -18,6 +18,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.default_text).setOnClickListener(this);
         findViewById(R.id.multi_text).setOnClickListener(this);
         findViewById(R.id.stick_text).setOnClickListener(this);
+        findViewById(R.id.load_text).setOnClickListener(this);
     }
 
     @Override
@@ -31,6 +32,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.stick_text:
                 startActivity(new Intent(this, StickRecycleViewActivity.class));
+                break;
+            case R.id.load_text:
+                startActivity(new Intent(this, LoadMoreRecycleViewActivity.class));
                 break;
         }
     }

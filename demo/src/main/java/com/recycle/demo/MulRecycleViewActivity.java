@@ -3,8 +3,8 @@ package com.recycle.demo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 
 import com.example.demo.AdapterWrapper;
 import com.example.demo.ViewHolder;
@@ -30,8 +30,8 @@ public class MulRecycleViewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_def);
 
         recycleView = (RecyclerView) findViewById(R.id.recycle_view);
-//        recycleView.setLayoutManager(new LinearLayoutManager(this));
-        recycleView.setLayoutManager(new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL));
+        recycleView.setLayoutManager(new LinearLayoutManager(this));
+//        recycleView.setLayoutManager(new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL));
 
         wrapper = new AdapterWrapper<MulBean>(this, new MutSupport()) {
 
@@ -45,6 +45,15 @@ public class MulRecycleViewActivity extends AppCompatActivity {
             }
         };
 
+        StickHeaderItemDecoration decor = new StickHeaderItemDecoration();
+
+        decor.registerStickType(3, new StickHeaderItemDecoration.StickTypeCreator() {
+            @Override
+            public boolean onCreate(RecyclerView parent, int adapterPosition) {
+                return true;
+            }
+        });
+        recycleView.addItemDecoration(decor);
         recycleView.setAdapter(wrapper);
 
         getWindow().getDecorView().postDelayed(new Runnable() {

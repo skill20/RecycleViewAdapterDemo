@@ -16,6 +16,7 @@ import java.util.List;
  * #since 6.0.0
  * #copyright TCL-MIG
  */
+@Deprecated
 public abstract class AdapterWrapper<T> extends RecyclerView.Adapter<ViewHolder> {
 
     private Context context;

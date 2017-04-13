@@ -23,7 +23,7 @@ import static com.example.recycleview.BaseRefreshHeader.STATE_REFRESHING;
  * Copyright(c) 2017 XunLei
  * Description
  */
-public class SuperRecycleView extends RecyclerView {
+public class XRecycleView extends RecyclerView {
 
     private SparseArray<View> mHeaderViews = new SparseArray<>();
     private DefaultHeader mRefreshHeader;
@@ -43,15 +43,15 @@ public class SuperRecycleView extends RecyclerView {
 
     private AppBarStateChangeListener.State appbarState = AppBarStateChangeListener.State.EXPANDED;
 
-    public SuperRecycleView(Context context) {
+    public XRecycleView(Context context) {
         this(context, null);
     }
 
-    public SuperRecycleView(Context context, @Nullable AttributeSet attrs) {
+    public XRecycleView(Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public SuperRecycleView(Context context, @Nullable AttributeSet attrs, int defStyle) {
+    public XRecycleView(Context context, @Nullable AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init(context);
     }

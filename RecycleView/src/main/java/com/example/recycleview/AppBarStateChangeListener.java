@@ -2,13 +2,10 @@ package com.example.recycleview;
 
 import android.support.design.widget.AppBarLayout;
 
-/**
- * Created by jianghejie on 16/6/19.
- */
 
-public abstract class AppBarStateChangeListener implements AppBarLayout.OnOffsetChangedListener {
+abstract class AppBarStateChangeListener implements AppBarLayout.OnOffsetChangedListener {
 
-    public enum State {
+    enum State {
         EXPANDED,
         COLLAPSED,
         IDLE
@@ -35,6 +32,7 @@ public abstract class AppBarStateChangeListener implements AppBarLayout.OnOffset
             mCurrentState = State.IDLE;
         }
     }
+
     public abstract void onStateChanged(AppBarLayout appBarLayout, State state);
 }
 

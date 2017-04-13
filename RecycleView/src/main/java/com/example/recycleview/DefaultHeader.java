@@ -4,7 +4,6 @@ import android.animation.ValueAnimator;
 import android.content.Context;
 import android.os.Handler;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,17 +47,21 @@ public class DefaultHeader extends LinearLayout implements BaseRefreshHeader {
     }
 
     private void initView(Context context) {
-        LayoutInflater.from(context).inflate(R.layout.layout_header, this);
+
+        mContainer = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.layout_header, this,false);
+        LayoutParams lp = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+        lp.setMargins(0, 0, 0, 0);
+        setLayoutParams(lp);
+        setPadding(0, 0, 0, 0);
+
+        addView(mContainer, new LayoutParams(LayoutParams.MATCH_PARENT, 0));
+        setGravity(Gravity.BOTTOM);
 
         msg = (TextView) findViewById(R.id.msg);
         pullView = findViewById(R.id.pull_view);
 
         measure(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         mMeasuredHeight = getMeasuredHeight();
-        setGravity(Gravity.CENTER_HORIZONTAL);
-        mContainer = (LinearLayout) findViewById(R.id.container);
-        mContainer.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, 0));
-        this.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
         mRotateUpAnim = new RotateAnimation(0.0f, -180.0f,
                 Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
@@ -68,13 +71,13 @@ public class DefaultHeader extends LinearLayout implements BaseRefreshHeader {
                 Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
         mRotateDownAnim.setDuration(ROTATE_ANIM_DURATION);
         mRotateDownAnim.setFillAfter(true);
+
+
     }
 
 
     @Override
     public void onMove(float delta) {
-
-        Log.i(TAG, "onMove:" + delta);
 
         if (getVisibleHeight() > 0 || delta > 0) {
             setVisibleHeight((int) delta + getVisibleHeight());
@@ -132,7 +135,7 @@ public class DefaultHeader extends LinearLayout implements BaseRefreshHeader {
             public void run() {
                 reset();
             }
-        }, 500);
+        }, 200);
     }
 
     @Override
@@ -161,7 +164,7 @@ public class DefaultHeader extends LinearLayout implements BaseRefreshHeader {
             public void run() {
                 setState(STATE_NORMAL);
             }
-        }, 500);
+        }, 200);
     }
 
     public void setState(int state) {
@@ -179,22 +182,22 @@ public class DefaultHeader extends LinearLayout implements BaseRefreshHeader {
                     pullView.clearAnimation();
                 }
 
-                msg.setText("pull to refresh");
+                msg.setText(R.string.pull_to_refresh);
                 break;
             case STATE_RELEASE_TO_REFRESH:
                 pullView.clearAnimation();
                 pullView.startAnimation(mRotateUpAnim);
-                msg.setText("release tu refresh");
+                msg.setText(R.string.release_to_refresh);
                 break;
             case STATE_REFRESHING:
 
                 pullView.clearAnimation();
                 pullView.setVisibility(View.GONE);
-                msg.setText("refreshing");
+                msg.setText(R.string.refresh);
                 break;
             case STATE_DONE:
                 pullView.setVisibility(View.GONE);
-                msg.setText("refresh done");
+                msg.setText(R.string.refresh_done);
                 break;
             default:
         }

@@ -6,7 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 
-import com.example.recycleview.SuperRecycleView;
+import com.example.recycleview.XRecycleView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +19,7 @@ import java.util.List;
  */
 public class RecycleActivity extends AppCompatActivity {
 
-    private SuperRecycleView mRecycleView;
+    private XRecycleView mRecycleView;
     private MoreAdapter adapterWrapper;
 
     @Override
@@ -27,7 +27,7 @@ public class RecycleActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recycle);
 
-        mRecycleView = (SuperRecycleView) findViewById(R.id.recycle_view);
+        mRecycleView = (XRecycleView) findViewById(R.id.recycle_view);
 
         mRecycleView.setLayoutManager(new LinearLayoutManager(this));
         adapterWrapper = new MoreAdapter(this);
@@ -38,7 +38,7 @@ public class RecycleActivity extends AppCompatActivity {
 //        View header = LayoutInflater.from(this).inflate(R.layout.recyclerview_header, mRecycleView,false);
 //        mRecycleView.addHeaderView(header);
 
-        mRecycleView.setLoadingListener(new SuperRecycleView.LoadingListener() {
+        mRecycleView.setLoadingListener(new XRecycleView.LoadingListener() {
             @Override
             public void onRefresh() {
                 new Handler().postDelayed(new Runnable() {

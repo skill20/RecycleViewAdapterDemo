@@ -4,14 +4,17 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
-import com.example.demo.SuperAdapter;
 import com.example.demo.OnRecycleScrollListener;
+import com.example.demo.SuperAdapter;
+import com.liaoinstan.springview.container.DefaultHeader;
+import com.liaoinstan.springview.widget.SpringView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +28,7 @@ import java.util.List;
 public class LoadMoreRecycleViewActivity extends AppCompatActivity {
     private RecyclerView recycleView;
     private MoreAdapter moreAdapter;
+    private SpringView mSpringView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -34,6 +38,26 @@ public class LoadMoreRecycleViewActivity extends AppCompatActivity {
         recycleView = (RecyclerView) findViewById(R.id.recycle_view);
         recycleView.setLayoutManager(new LinearLayoutManager(this));
         recycleView.addOnScrollListener(mOnScrollListener);
+
+        mSpringView = (SpringView) findViewById(R.id.spring_view);
+        mSpringView.setType(SpringView.Type.FOLLOW);
+        mSpringView.setHeader(new DefaultHeader(this));
+        mSpringView.setListener(new SpringView.OnFreshListener() {
+            @Override
+            public void onRefresh() {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mSpringView.onFinishFreshAndLoad();
+                    }
+                }, 1000);
+            }
+
+            @Override
+            public void onLoadmore() {
+
+            }
+        });
 
 
         moreAdapter = new MoreAdapter(this);

@@ -22,6 +22,7 @@
         <activity android:name=".StickRecycleViewActivity" />
 
         <activity android:name=".LoadMoreRecycleViewActivity" />
+        <activity android:name=".RecycleActivity"/>
     </application>
 
 </manifest>

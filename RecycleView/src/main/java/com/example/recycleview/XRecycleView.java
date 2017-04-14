@@ -208,7 +208,28 @@ public class XRecycleView extends RecyclerView {
         isNoMore = noMore;
         if (mFootView instanceof LoadingMoreFooter) {
             ((LoadingMoreFooter) mFootView).setState(
-                    isNoMore ? LoadingMoreFooter.STATE_NOMORE : LoadingMoreFooter.STATE_COMPLETE);
+                    isNoMore ? LoadingMoreFooter.STATE_NO_MORE : LoadingMoreFooter.STATE_COMPLETE);
+        } else {
+            mFootView.setVisibility(View.GONE);
+        }
+    }
+
+    public void setLoadMoreFailClickEnable() {
+        if (mFootView instanceof LoadingMoreFooter && mLoadingListener != null) {
+            ((LoadingMoreFooter) mFootView).setLoadMoreFailClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mLoadingListener.onLoadMore();
+                }
+            });
+        }
+    }
+
+    public void loadMoreFail() {
+        isLoadingData = false;
+        isNoMore = false;
+        if (mFootView instanceof LoadingMoreFooter) {
+            ((LoadingMoreFooter) mFootView).setState(LoadingMoreFooter.STATE_LOADING_MORE_FAIL);
         } else {
             mFootView.setVisibility(View.GONE);
         }

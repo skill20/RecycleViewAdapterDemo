@@ -19,7 +19,8 @@ public class LoadingMoreFooter extends LinearLayout {
 
     public final static int STATE_LOADING = 0;
     public final static int STATE_COMPLETE = 1;
-    public final static int STATE_NOMORE = 2;
+    public final static int STATE_NO_MORE = 2;
+    public final static int STATE_LOADING_MORE_FAIL = 3;
 
     private TextView mText;
     private View mIvProgress;
@@ -56,11 +57,34 @@ public class LoadingMoreFooter extends LinearLayout {
                 mText.setText(R.string.loading);
                 this.setVisibility(View.GONE);
                 break;
-            case STATE_NOMORE:
+            case STATE_NO_MORE:
                 mText.setText(R.string.no_more_data);
                 mIvProgress.setVisibility(View.GONE);
                 this.setVisibility(View.VISIBLE);
                 break;
+            case STATE_LOADING_MORE_FAIL:
+                mText.setText(R.string.loading_more_fail);
+                mIvProgress.setVisibility(View.GONE);
+                this.setVisibility(View.VISIBLE);
+
+                if (loadFailClickListener != null) {
+                    mText.setOnClickListener(new OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            mIvProgress.setVisibility(View.VISIBLE);
+                            mText.setText(R.string.loading);
+                            loadFailClickListener.onClick(v);
+                            mText.setOnClickListener(null);
+                        }
+                    });
+                }
+                break;
         }
+    }
+
+    private View.OnClickListener loadFailClickListener;
+
+    public void setLoadMoreFailClickListener(OnClickListener loadMoreFailClickListener) {
+        this.loadFailClickListener = loadMoreFailClickListener;
     }
 }

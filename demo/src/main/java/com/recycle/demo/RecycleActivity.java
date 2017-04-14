@@ -1,6 +1,8 @@
 package com.recycle.demo;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -60,19 +62,29 @@ public class RecycleActivity extends AppCompatActivity {
 
             @Override
             public void onLoadMore() {
+
+
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
+
+                        boolean b = isNetworkConnected(getApplication());
+
+                        if (!b) {
+                            mRecycleView.loadMoreFail();
+                            return;
+                        }
+
                         adapterWrapper.setMoreData(getData(count--));
                         mRecycleView.setLoadingMoreEnabled(count >= 7);
-                        mRecycleView.loadMoreComplete();
+//                        mRecycleView.loadMoreComplete();
                         adapterWrapper.notifyDataSetChanged();
                     }
                 }, 1000);
             }
         });
 
-
+        mRecycleView.setLoadMoreFailClickEnable();
         adapterWrapper.setData(getData(20));
     }
 
@@ -85,6 +97,19 @@ public class RecycleActivity extends AppCompatActivity {
             list.add("string---" + i);
         }
         return list;
+    }
+
+    public static boolean isNetworkConnected(Context context) {
+        if (context != null) {
+            // 获取手机所有连接管理对象(包括对wi-fi,net等连接的管理)
+            ConnectivityManager manager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+            // 获取NetworkInfo对象
+            NetworkInfo networkInfo = manager.getActiveNetworkInfo();
+            //判断NetworkInfo对象是否为空
+            if (networkInfo != null)
+                return networkInfo.isAvailable();
+        }
+        return false;
     }
 
     private class Adapter extends RecyclerView.Adapter<ViewHolder> {

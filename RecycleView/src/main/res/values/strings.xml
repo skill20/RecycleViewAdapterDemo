@@ -8,4 +8,5 @@
     <string name="release_to_refresh">Release to refresh</string>
     <string name="refresh">Refreshing</string>
     <string name="refresh_done">Refresh complete</string>
+    <string name="loading_more_fail">Load more fail</string>
 </resources>

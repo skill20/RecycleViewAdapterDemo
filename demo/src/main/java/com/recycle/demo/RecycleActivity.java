@@ -85,7 +85,8 @@ public class RecycleActivity extends AppCompatActivity {
         });
 
         mRecycleView.setLoadMoreFailClickEnable();
-        adapterWrapper.setData(getData(20));
+//        adapterWrapper.setData(getData(20));
+        mRecycleView.refresh();
     }
 
     int count = 10;

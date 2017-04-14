@@ -48,7 +48,7 @@ public class DefaultHeader extends LinearLayout implements BaseRefreshHeader {
 
     private void initView(Context context) {
 
-        mContainer = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.layout_header, this,false);
+        mContainer = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.layout_header, this, false);
         LayoutParams lp = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
         lp.setMargins(0, 0, 0, 0);
         setLayoutParams(lp);
@@ -198,6 +198,13 @@ public class DefaultHeader extends LinearLayout implements BaseRefreshHeader {
             case STATE_DONE:
                 pullView.setVisibility(View.GONE);
                 msg.setText(R.string.refresh_done);
+                break;
+
+            case STATE_AUTO:
+                pullView.clearAnimation();
+                pullView.setVisibility(View.GONE);
+                msg.setText(R.string.refresh);
+                smoothScrollTo(mMeasuredHeight);
                 break;
             default:
         }

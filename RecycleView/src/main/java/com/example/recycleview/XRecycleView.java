@@ -244,6 +244,13 @@ public class XRecycleView extends RecyclerView {
         }
     }
 
+    public void refresh() {
+        if (pullRefreshEnabled && mLoadingListener != null) {
+            mRefreshHeader.setState(BaseRefreshHeader.STATE_AUTO);
+            mLoadingListener.onRefresh();
+        }
+    }
+
     public void setLoadingListener(LoadingListener listener) {
         mLoadingListener = listener;
     }

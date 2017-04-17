@@ -77,7 +77,7 @@ public class RecycleActivity extends AppCompatActivity {
 
                         adapterWrapper.setMoreData(getData(count--));
                         mRecycleView.setLoadingMoreEnabled(count >= 7);
-//                        mRecycleView.loadMoreComplete();
+                        mRecycleView.loadMoreComplete();
                         adapterWrapper.notifyDataSetChanged();
                     }
                 }, 1000);

@@ -38,6 +38,7 @@ public class LoadMoreRecycleViewActivity extends AppCompatActivity {
         recycleView = (RecyclerView) findViewById(R.id.recycle_view);
         recycleView.setLayoutManager(new LinearLayoutManager(this));
         recycleView.addOnScrollListener(mOnScrollListener);
+        recycleView.requestDisallowInterceptTouchEvent(true);
 
         mSpringView = (SpringView) findViewById(R.id.spring_view);
         mSpringView.setType(SpringView.Type.FOLLOW);

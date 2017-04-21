@@ -57,7 +57,7 @@ public class RecycleActivity extends AppCompatActivity {
                         mRecycleView.refreshComplete();
                         adapterWrapper.notifyDataSetChanged();
                     }
-                }, 1000);
+                }, 3000);
             }
 
             @Override

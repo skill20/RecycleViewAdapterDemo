@@ -7,17 +7,19 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.demo.ViewHolder;
-import com.example.recycleview.XRecycleView;
+import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import multitype.MultiTypeAdapter;
 
 /**
  * Create by pc-qing
@@ -25,34 +27,36 @@ import java.util.List;
  * Copyright(c) 2017 XunLei
  * Description
  */
-public class RecycleActivity extends AppCompatActivity {
+public class XRecycleActivity extends AppCompatActivity {
 
-    private XRecycleView mRecycleView;
-    private Adapter adapterWrapper;
+    private XRecyclerView mRecycleView;
+    private MultiTypeAdapter adapterWrapper;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_recycle);
+        setContentView(R.layout.activity_xrecycle);
 
-        mRecycleView = (XRecycleView) findViewById(R.id.recycle_view);
+        mRecycleView = (XRecyclerView) findViewById(R.id.recycle_view);
 
-        mRecycleView.setLayoutManager(new GridLayoutManager(this,3));
-        adapterWrapper = new Adapter(this);
+        mRecycleView.setLayoutManager(new LinearLayoutManager(this));
+//        adapterWrapper = new Adapter(this);
 
+        adapterWrapper = new MultiTypeAdapter();
+        adapterWrapper.register(String.class, new TextItemBinder());
         mRecycleView.setAdapter(adapterWrapper);
 
 //        View header = LayoutInflater.from(this).inflate(R.layout.recyclerview_header, mRecycleView,false);
 //        mRecycleView.addHeaderView(header);
 
-        mRecycleView.setLoadingListener(new XRecycleView.LoadingListener() {
+        mRecycleView.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
             public void onRefresh() {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         count = 10;
-                        adapterWrapper.setData(getData(20));
+                        adapterWrapper.setItems(getData(20));
                         mRecycleView.setLoadingMoreEnabled(true);
                         mRecycleView.refreshComplete();
                         adapterWrapper.notifyDataSetChanged();
@@ -71,11 +75,10 @@ public class RecycleActivity extends AppCompatActivity {
                         boolean b = isNetworkConnected(getApplication());
 
                         if (!b) {
-                            mRecycleView.loadMoreFail();
                             return;
                         }
 
-                        adapterWrapper.setMoreData(getData(count--));
+                        adapterWrapper.setItems(getData(count--));
                         mRecycleView.setLoadingMoreEnabled(count >= 7);
                         mRecycleView.loadMoreComplete();
                         adapterWrapper.notifyDataSetChanged();
@@ -84,12 +87,13 @@ public class RecycleActivity extends AppCompatActivity {
             }
         });
 
-        mRecycleView.setLoadMoreFailClickEnable();
 //        adapterWrapper.setData(getData(20));
         mRecycleView.refresh();
     }
 
     int count = 10;
+
+    private List<String> dataList = new ArrayList<>();
 
     public List<String> getData(int count) {
         ArrayList<String> list = new ArrayList<>();
@@ -97,6 +101,7 @@ public class RecycleActivity extends AppCompatActivity {
 
             list.add("string---" + i);
         }
+        dataList.addAll(list);
         return list;
     }
 

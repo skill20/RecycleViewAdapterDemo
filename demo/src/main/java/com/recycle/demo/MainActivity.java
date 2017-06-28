@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.recycle).setOnClickListener(this);
         findViewById(R.id.xrecycle).setOnClickListener(this);
         findViewById(R.id.state).setOnClickListener(this);
+        findViewById(R.id.view_pager).setOnClickListener(this);
     }
 
     @Override
@@ -47,6 +48,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.state:
                 startActivity(new Intent(this,StateActivity.class));
+                break;
+            case R.id.view_pager:
+                startActivity(new Intent(this,ViewPagerActivity.class));
                 break;
         }
     }

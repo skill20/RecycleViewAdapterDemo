@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,7 +37,7 @@ public class RecycleActivity extends AppCompatActivity {
 
         mRecycleView = (XRecycleView) findViewById(R.id.recycle_view);
 
-        mRecycleView.setLayoutManager(new GridLayoutManager(this,3));
+        mRecycleView.setLayoutManager(new LinearLayoutManager(this));
         adapterWrapper = new Adapter(this);
 
         mRecycleView.setAdapter(adapterWrapper);
